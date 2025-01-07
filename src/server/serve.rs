@@ -11,7 +11,6 @@ pub async fn serve(port: u16, app_settings: Settings) -> Result<(), ApiError> {
 
     let (router, _api) = OpenApiRouter::with_openapi(ApiDoc::openapi())
         .nest("/health", health::router())
-        // .layer(setup_request_tracing())
         .layer(create_trace_layer())
         .with_state(state)
         .split_for_parts();
