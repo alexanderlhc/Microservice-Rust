@@ -32,4 +32,3 @@ pub fn setup_logging(level: &LogLevel) -> Result<(), String> {
 
     Ok(())
 }
-

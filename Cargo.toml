@@ -17,3 +17,4 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 utoipa = "5.3.1"
 utoipa-axum = "0.1.4"
 utoipa-rapidoc = { version = "5.0.1", features = ["axum"] }
+uuid = { version = "1.11.0", features = ["v4", "fast-rng"] }
