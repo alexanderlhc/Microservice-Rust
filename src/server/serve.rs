@@ -1,11 +1,13 @@
 use crate::{app_state::AppState, logging::create_trace_layer, server::health, settings::Settings};
 use thiserror::Error;
+use tracing::info;
 use utoipa::OpenApi;
 use utoipa_axum::router::OpenApiRouter;
 use utoipa_rapidoc::RapiDoc;
 
 use super::api_doc::ApiDoc;
 
+const APP_NAME: &str = env!("CARGO_PKG_NAME");
 pub async fn serve(port: u16, app_settings: Settings) -> Result<(), ApiError> {
     let state = AppState::new(app_settings).await;
 
@@ -22,6 +24,9 @@ pub async fn serve(port: u16, app_settings: Settings) -> Result<(), ApiError> {
     let listener = tokio::net::TcpListener::bind(&addr)
         .await
         .map_err(ApiError::TcpListenerError)?;
+
+    info!("Serving {} on: http://{}", APP_NAME, addr);
+    info!("\t - API docs on: http://{}/rapidoc", addr);
 
     axum::serve(listener, router.into_make_service()).await?;
     Ok(())
